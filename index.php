@@ -13,7 +13,9 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['photo'])) {
     $file_ext       = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
     if (!in_array( $file_ext, $allowed_extensions )) {
-        $_SESSION['message'] = "Only JPG, JPEG, and PNG files are allowed.";
+        if (empty($_FILES['photo']['name'])) {
+            $_SESSION['message']   = "Please Choose a Picture..!!!";
+        }
     } elseif ( $file_size  > $max_file_size ) {
         $_SESSION['message'] = "File size must be less than 2MB";
     }else {
@@ -45,7 +47,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['photo'])) {
   <?php
     if (isset($_SESSION['message'])) {
     ?>
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
             <strong>Message...</strong><?= $_SESSION['message'] ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
